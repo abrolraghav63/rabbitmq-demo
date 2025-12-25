@@ -14,7 +14,7 @@ Make sure RabbitMQ is running on `localhost:5672` with default credentials (gues
 Before running producers and consumers, you must create the exchanges and queues:
 
 ```bash
-python setup_infrastructure.py
+python3 setup_infrastructure.py
 ```
 
 This ensures all queues exist and are bound, so messages won't be lost even if consumers start late.
@@ -25,12 +25,12 @@ This ensures all queues exist and are bound, so messages won't be lost even if c
 
 **Terminal 1 - Start Consumer 1 (listens to Producer 1):**
 ```bash
-python consumer1.py
+python3 consumer1.py
 ```
 
 **Terminal 2 - Start Consumer 2 (listens to all Producer 2 messages):**
 ```bash
-python consumer2.py
+python3 consumer2.py
 ```
 
 **Terminal 3 - Start Consumer 3 (listens to Producer 2, India only):**
