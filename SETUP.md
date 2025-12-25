@@ -138,6 +138,30 @@ sudo rabbitmqctl list_users
 sudo rabbitmqctl delete_user <username>
 ```
 
+## Python Dependencies Installation
+
+### 1. Install Python and pip (if not already installed)
+```bash
+sudo apt-get install python3 python3-pip -y
+```
+
+### 2. Install Required Python Packages
+Navigate to the project directory and install dependencies:
+```bash
+cd /path/to/RabbitMQ
+pip install -r requirements.txt
+```
+
+Or install pika directly:
+```bash
+pip3 install pika==1.3.2
+```
+
+### 3. Verify pika Installation
+```bash
+python3 -c "import pika; print(pika.__version__)"
+```
+
 ## Default Connection Details for Python
 
 When running the Python producer/consumer scripts:
@@ -174,7 +198,6 @@ sudo journalctl -u rabbitmq-server -n 100
 
 ## Next Steps
 
-Once RabbitMQ is running:
-1. Install Python pika package: `pip install pika`
-2. Run the producer and consumer scripts from this repository
-3. Monitor messages in the Management UI dashboard
+Once RabbitMQ is running and Python dependencies are installed:
+1. Run the producer and consumer scripts from this repository
+2. Monitor messages in the Management UI dashboard
