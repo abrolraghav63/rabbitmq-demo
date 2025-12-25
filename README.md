@@ -9,7 +9,19 @@ pip install pika
 
 Make sure RabbitMQ is running on `localhost:5672` with default credentials (guest:guest).
 
+### Important: Setup Infrastructure First
+
+Before running producers and consumers, you must create the exchanges and queues:
+
+```bash
+python setup_infrastructure.py
+```
+
+This ensures all queues exist and are bound, so messages won't be lost even if consumers start late.
+
 ### Running Producers and Consumers
+
+**You can now run producers and consumers in ANY order**
 
 **Terminal 1 - Start Consumer 1 (listens to Producer 1):**
 ```bash
@@ -23,17 +35,17 @@ python consumer2.py
 
 **Terminal 3 - Start Consumer 3 (listens to Producer 2, India only):**
 ```bash
-python consumer3.py
+python3 consumer3.py
 ```
 
 **Terminal 4 - Run Producer 1:**
 ```bash
-python producer1.py
+python3 producer1.py
 ```
 
 **Terminal 5 - Run Producer 2:**
 ```bash
-python producer2.py
+python3 producer2.py
 ```
 
 ## Project Overview
@@ -68,13 +80,20 @@ python producer2.py
 - Exchange: `user_billing_exchange`
 - Routing key: `user.billing.india` (receives only India messages via RabbitMQ routing)
 
-## Features
+## Important Notes
 
-- ✅ Message persistence (durable queues and messages)
-- ✅ Direct exchange for Producer 1 (user contact data)
-- ✅ Topic exchange for Producer 2 (user billing data with country-based routing)
-- ✅ Acknowledgment of processed messages
-- ✅ JSON message format
-- ✅ Broker-level filtering for India records (no client-side filtering)
-- ✅ Easy to extend with more producers/consumers
+### Message Delivery Guarantee
+
+- **If queue doesn't exist when message is published** → Message is lost (no destination)
+- **If queue exists but consumer is disconnected** → Message stays in queue until consumer reconnects ✅
+- Always run `setup_infrastructure.py` first to pre-create all queues
+
+### Consumer Disconnection
+
+If a consumer disconnects temporarily:
+1. The queue persists
+2. Messages accumulate in the queue
+3. When consumer reconnects, it receives all accumulated messages
+
+This is the intended behavior for reliable message delivery.
 # rabbitmq-demo
